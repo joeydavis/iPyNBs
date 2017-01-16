@@ -16,7 +16,6 @@ import sys, os
 import getopt
 from mpl_toolkits.mplot3d import proj3d
 from string import ascii_letters
-import networkx as nx
 import matplotlib.colors as mpc
 import random
 import matplotlib._pylab_helpers
@@ -43,7 +42,7 @@ def readDataFile(filename, scale=1.0):
         return {'fractions':header[1:], 'proteins':proteins, 'fi':None, 'pi':None, 'data':data}
 
 ########################
-def drawHeatMap(xdat, name="unnamed", x=3, y=15, colors=pylab.cm.autumn_r, dendro=False, protColors=None, cIndex=None, km=None):
+def drawHeatMap(xdat, name="unnamed", x=3, y=15, colors=pylab.cm.Blues, dendro=False, protColors=None, cIndex=None, km=None):
     """drawHeatMap produces a colored heatmap in a new figure window
 
     :param xdat: a data object (must contain fields 'data', 'fractions', 'proteins')
@@ -77,7 +76,7 @@ def drawHeatMap(xdat, name="unnamed", x=3, y=15, colors=pylab.cm.autumn_r, dendr
     for i in range(len(proteins)):
         axData.text(-0.75, i, '  '+str(proteins[i]), verticalalignment="center", horizontalalignment="right", fontsize=4)
 
-    figData = axData.matshow(data, aspect='auto', cmap=colors, vmin=0, vmax=1.25)
+    figData = axData.matshow(data, aspect='auto', cmap=colors, vmin=0, vmax=1.00)
 
     #figData = heatMapAxes(data, dims = [xStart, yStart, xLength, yLength], fractions=fractions, proteins=proteins, protColors=protColors, cIndex=cIndex, fig=fig)
     axData.set_xticks([])
@@ -132,23 +131,22 @@ def heatMapAxes(data, dims=[0.1, 0.1, 0.7, 0.7], colors=pylab.cm.autumn, fractio
 if __name__ == '__main__':
 ####initialize stuff####
     colors = pylab.cm.autumn
-    fileToRead = 'merged_mean_noMSUPellet_no70S.txt'
+    fileToRead = '/home/jhdavis/data/2016_02_27-XN_finalFigures/dataForHeatMap_subset.csv'
     showPlots = True
-    savePlots = True
+    savePlots = False
 
     pylab.close('all')
 
-    fileToRead = 'merged_mean.txt'
     rawData = readDataFile(fileToRead, 1)
     rawMap = drawHeatMap(rawData, name="rawMap", x=3, y=15)
     
-    fileToRead = 'merged_mean_noMSUPellet.txt'
-    rawData = readDataFile(fileToRead, 1)
-    rawMap = drawHeatMap(rawData, name="rawMap", x=3, y=18)
+    #fileToRead = 'merged_mean_noMSUPellet.txt'
+    #rawData = readDataFile(fileToRead, 1)
+    #rawMap = drawHeatMap(rawData, name="rawMap", x=3, y=18)
 
-    fileToRead = 'merged_mean_noMSUPellet_no70S.txt'
-    rawData = readDataFile(fileToRead, 1)
-    rawMap = drawHeatMap(rawData, name="rawMap", x=3, y=22.5)
+    #fileToRead = 'merged_mean_noMSUPellet_no70S.txt'
+    #rawData = readDataFile(fileToRead, 1)
+    #rawMap = drawHeatMap(rawData, name="rawMap", x=3, y=22.5)
     
     if savePlots:
         figures=[manager.canvas.figure for manager in matplotlib._pylab_helpers.Gcf.get_all_fig_managers()]
